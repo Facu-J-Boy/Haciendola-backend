@@ -12,4 +12,15 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.get('/auth', async (req, res) => {
+  const { user, password } = req.body;
+  try {
+    const auth = await controller.authUser(user, password);
+    const { status, response } = auth;
+    res.status(status).json(response);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

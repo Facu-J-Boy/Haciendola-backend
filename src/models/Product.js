@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
+const User = require('./User');
 
 const Product = sequelize.define(
   'Product',
@@ -28,7 +29,7 @@ const Product = sequelize.define(
       unique: true,
     },
     grams: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     stock: {
@@ -44,8 +45,9 @@ const Product = sequelize.define(
       allowNull: false,
     },
     barCode: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.NUMERIC,
       allowNull: false,
+      unique: true,
     },
   },
   {

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
+const Product = require('./Product');
 
 const User = sequelize.define(
   'User',
@@ -23,5 +24,7 @@ const User = sequelize.define(
     timestamps: false,
   }
 );
+
+User.hasMany(Product);
 
 module.exports = User;
