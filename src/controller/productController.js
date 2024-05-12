@@ -68,6 +68,32 @@ const controller = {
       response: user.Products,
     };
   },
+  deleteProduct: async (productId) => {
+    try {
+      const numDeleted = await Product.destroy({
+        where: {
+          id: productId,
+        },
+      });
+
+      if (numDeleted === 1) {
+        return {
+          status: 200,
+          response: { msg: 'Product deleted' },
+        };
+      } else {
+        return {
+          status: 400,
+          response: { msg: 'Product not found' },
+        };
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        response: error,
+      };
+    }
+  },
 };
 
 module.exports = controller;

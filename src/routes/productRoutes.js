@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const controller = require('../controller/productController');
-const sequelize = require('../db');
 const router = Router();
 
 router.post('/create/:userId', async (req, res) => {
@@ -37,6 +36,17 @@ router.get('/list/:userId', async (req, res) => {
     res.status(list.status).json(list.response);
   } catch (error) {
     res.status(500).json({ error });
+  }
+});
+
+router.delete('/delete/:productId', async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const drop = await controller.deleteProduct(productId);
+    console.log(drop);
+    res.status(drop.status).json(drop.response);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
