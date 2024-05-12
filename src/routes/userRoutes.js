@@ -12,8 +12,8 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/auth', async (req, res) => {
-  const { user, password } = req.body;
+router.get('/auth/:user/:password', async (req, res) => {
+  const { user, password } = req.params;
   try {
     const auth = await controller.authUser(user, password);
     const { status, response } = auth;
