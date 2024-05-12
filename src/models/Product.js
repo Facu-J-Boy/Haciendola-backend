@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
-const User = require('./User');
 
 const Product = sequelize.define(
   'Product',
@@ -24,9 +23,11 @@ const Product = sequelize.define(
       allowNull: false,
     },
     SKU: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMERIC,
       allowNull: false,
       unique: true,
+      defaultValue: () =>
+        Math.floor(10000000000 + Math.random() * 90000000000), // Generar automáticamente el valor
     },
     grams: {
       type: DataTypes.FLOAT,
@@ -48,6 +49,8 @@ const Product = sequelize.define(
       type: DataTypes.NUMERIC,
       allowNull: false,
       unique: true,
+      defaultValue: () =>
+        Math.floor(1000000000000 + Math.random() * 9000000000000), // Generar automáticamente el valor
     },
   },
   {

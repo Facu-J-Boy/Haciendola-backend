@@ -9,29 +9,25 @@ router.post('/create/:userId', async (req, res) => {
     handle,
     title,
     description,
-    SKU,
     grams,
     stock,
     price,
     comparePrice,
-    barCode,
   } = req.body;
-  // try {
-  const newProduct = await controller.createProduct(userId, {
-    handle,
-    title,
-    description,
-    SKU,
-    grams,
-    stock,
-    price,
-    comparePrice,
-    barCode,
-  });
-  res.status(newProduct.status).json(newProduct.response);
-  // } catch (error) {
-  //   res.status(500).json({ error });
-  // }
+  try {
+    const newProduct = await controller.createProduct(userId, {
+      handle,
+      title,
+      description,
+      grams,
+      stock,
+      price,
+      comparePrice,
+    });
+    res.status(newProduct.status).json(newProduct.response);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 router.get('/list/:userId', async (req, res) => {

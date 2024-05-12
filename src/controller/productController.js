@@ -4,19 +4,23 @@ const User = require('../models/User');
 const controller = {
   createProduct: async (
     userId,
-    {
-      handle,
-      title,
-      description,
-      SKU,
-      grams,
-      stock,
-      price,
-      comparePrice,
-      barCode,
-    }
+    { handle, title, description, grams, stock, price, comparePrice }
   ) => {
     try {
+      if (
+        !handle ||
+        !title ||
+        !description ||
+        !grams ||
+        !stock ||
+        !price ||
+        !comparePrice
+      ) {
+        return {
+          status: 400,
+          response: { msg: 'Params required' },
+        };
+      }
       const user = await User.findByPk(userId);
       if (!user) {
         return {
@@ -30,12 +34,10 @@ const controller = {
         handle,
         title,
         description,
-        SKU,
         grams,
         stock,
         price,
         comparePrice,
-        barCode,
       });
       await user.addProduct(newProduct);
       return {
