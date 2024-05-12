@@ -50,4 +50,31 @@ router.delete('/delete/:productId', async (req, res) => {
   }
 });
 
+router.put('/update/:productId', async (req, res) => {
+  const { productId } = req.params;
+  const {
+    handle,
+    title,
+    description,
+    grams,
+    stock,
+    price,
+    comparePrice,
+  } = req.body;
+  try {
+    const update = await controller.updateProduct(productId, {
+      handle,
+      title,
+      description,
+      grams,
+      stock,
+      price,
+      comparePrice,
+    });
+    res.status(update.status).json(update.response);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

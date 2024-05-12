@@ -94,6 +94,42 @@ const controller = {
       };
     }
   },
+  updateProduct: async (
+    productId,
+    { handle, title, description, grams, stock, price, comparePrice }
+  ) => {
+    try {
+      const updatedProduct = await Product.update(
+        {
+          handle,
+          title,
+          description,
+          grams,
+          stock,
+          price,
+          comparePrice,
+        },
+        { where: { id: productId } }
+      );
+
+      if (updatedProduct[0] === 1) {
+        return {
+          status: 200,
+          response: { msg: 'Product updated successfully' },
+        };
+      } else {
+        return {
+          status: 404,
+          response: { msg: 'Product not found' },
+        };
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        response: error,
+      };
+    }
+  },
 };
 
 module.exports = controller;
