@@ -4,11 +4,10 @@ const User = require('../models/User');
 const controller = {
   createProduct: async (
     userId,
-    { handle, title, description, grams, stock, price, comparePrice }
+    { title, description, grams, stock, price, comparePrice }
   ) => {
     try {
       if (
-        !handle ||
         !title ||
         !description ||
         !grams ||
@@ -30,9 +29,10 @@ const controller = {
           },
         };
       }
+      const handle = title.toLowerCase().replace(/\s+/g, '-');
       const newProduct = await Product.create({
         handle,
-        title,
+        title: title.toUpperCase(),
         description,
         grams,
         stock,
@@ -45,9 +45,10 @@ const controller = {
         response: { msg: 'Product created' },
       };
     } catch (error) {
+      console.log('error: ', error);
       return {
         status: 402,
-        response: { error: error },
+        response: error,
       };
     }
   },
@@ -96,13 +97,14 @@ const controller = {
   },
   updateProduct: async (
     productId,
-    { handle, title, description, grams, stock, price, comparePrice }
+    { title, description, grams, stock, price, comparePrice }
   ) => {
     try {
+      const handle = title.toLowerCase().replace(/\s+/g, '-');
       const updatedProduct = await Product.update(
         {
           handle,
-          title,
+          title: title.toUpperCase(),
           description,
           grams,
           stock,

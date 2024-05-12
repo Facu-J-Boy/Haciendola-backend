@@ -4,18 +4,10 @@ const router = Router();
 
 router.post('/create/:userId', async (req, res) => {
   const { userId } = req.params;
-  const {
-    handle,
-    title,
-    description,
-    grams,
-    stock,
-    price,
-    comparePrice,
-  } = req.body;
+  const { title, description, grams, stock, price, comparePrice } =
+    req.body;
   try {
     const newProduct = await controller.createProduct(userId, {
-      handle,
       title,
       description,
       grams,
@@ -63,7 +55,6 @@ router.put('/update/:productId', async (req, res) => {
   } = req.body;
   try {
     const update = await controller.updateProduct(productId, {
-      handle,
       title,
       description,
       grams,
