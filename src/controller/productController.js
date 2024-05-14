@@ -71,6 +71,7 @@ const controller = {
   },
   deleteProduct: async (productId) => {
     try {
+      const product = await Product.findByPk(productId);
       const numDeleted = await Product.destroy({
         where: {
           id: productId,
@@ -80,7 +81,7 @@ const controller = {
       if (numDeleted === 1) {
         return {
           status: 200,
-          response: { msg: 'Product deleted' },
+          response: { product, msg: 'Product deleted' },
         };
       } else {
         return {
