@@ -30,27 +30,61 @@ const controller = {
     if (!user || !password) {
       return {
         status: 401,
-        response: { msg: 'Params required' },
+        response: { user: null, msg: 'Params required' },
       };
     }
     const authUser = await User.findOne({
       where: { user },
     });
     if (!authUser) {
-      return { status: 403, response: { msg: 'User not found' } };
+      return {
+        status: 400,
+        response: { user: null, msg: 'User not found' },
+      };
     }
     const passwordMatch = verifyPassword(password, authUser.password);
     if (!passwordMatch) {
       return {
-        status: 403,
-        response: { msg: 'Incorrect password' },
+        status: 400,
+        response: { user: null, msg: 'Incorrect password' },
       };
     } else {
       const userResponse = await User.findOne({
         where: { user },
         attributes: { exclude: ['password'] },
       });
-      return { status: 200, response: userResponse };
+      return {
+        status: 200,
+        response: { user: userResponse, msg: null },
+      };
+    }
+  },
+  userSession: async (userId) => {
+    if (!userId) {
+      return {
+        status: 400,
+        response: {
+          user: null,
+        },
+      };
+    }
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] },
+    });
+    if (!user) {
+      return {
+        status: 404,
+        response: {
+          user: null,
+        },
+      };
+    } else {
+      return {
+        status: 200,
+        response: {
+          user: user,
+        },
+      };
     }
   },
 };

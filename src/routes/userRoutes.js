@@ -23,4 +23,14 @@ router.get('/auth/:user/:password', async (req, res) => {
   }
 });
 
+router.get('/session/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const session = await controller.userSession(userId);
+    res.status(session.status).json(session.response);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
