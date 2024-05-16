@@ -31,6 +31,17 @@ router.get('/list/:userId', async (req, res) => {
   }
 });
 
+router.get('/single/:productId', async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const product = await controller.getSingleProduct(productId);
+    const { status, response } = product;
+    res.status(status).json(response);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
 router.delete('/delete/:productId', async (req, res) => {
   const { productId } = req.params;
   try {

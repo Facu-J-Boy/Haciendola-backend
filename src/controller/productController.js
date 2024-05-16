@@ -17,7 +17,7 @@ const controller = {
       ) {
         return {
           status: 400,
-          response: { msg: 'Params required' },
+          response: { msg: 'Parametros requeridos', product: [] },
         };
       }
       const user = await User.findByPk(userId);
@@ -25,7 +25,8 @@ const controller = {
         return {
           status: 402,
           response: {
-            error: 'usuario no encontrado',
+            msg: 'Usuario no encontrado',
+            product: [],
           },
         };
       }
@@ -42,7 +43,7 @@ const controller = {
       await user.addProduct(newProduct);
       return {
         status: 200,
-        response: { msg: 'Product created' },
+        response: { msg: 'Producto creado', product: newProduct },
       };
     } catch (error) {
       console.log('error: ', error);
@@ -60,7 +61,7 @@ const controller = {
       return {
         status: 401,
         response: {
-          msg: 'Nonexistent user',
+          msg: 'Usuario inexistente',
         },
       };
     }
@@ -81,12 +82,12 @@ const controller = {
       if (numDeleted === 1) {
         return {
           status: 200,
-          response: { product, msg: 'Product deleted' },
+          response: { product, msg: 'Producto borrado' },
         };
       } else {
         return {
           status: 400,
-          response: { msg: 'Product not found' },
+          response: { msg: 'Producto no encontrado' },
         };
       }
     } catch (error) {
@@ -118,12 +119,12 @@ const controller = {
       if (updatedProduct[0] === 1) {
         return {
           status: 200,
-          response: { msg: 'Product updated successfully' },
+          response: { msg: 'Producto editado con exito' },
         };
       } else {
         return {
           status: 404,
-          response: { msg: 'Product not found' },
+          response: { msg: 'producto no encontrado' },
         };
       }
     } catch (error) {
@@ -132,6 +133,25 @@ const controller = {
         response: error,
       };
     }
+  },
+  getSingleProduct: async (productId) => {
+    try {
+      const product = await Product.findByPk(productId);
+      if (product) {
+        return {
+          status: 200,
+          response: { msg: null, product: product },
+        };
+      } else {
+        return {
+          status: 404,
+          response: {
+            msg: 'Producto no encontrado',
+            product: null,
+          },
+        };
+      }
+    } catch (error) {}
   },
 };
 
