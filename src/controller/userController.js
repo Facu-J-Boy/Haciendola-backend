@@ -30,7 +30,7 @@ const controller = {
     if (!user || !password) {
       return {
         status: 401,
-        response: { user: null, msg: 'Params required' },
+        response: { user: null, msg: 'Parametros requeridos' },
       };
     }
     const authUser = await User.findOne({
@@ -39,14 +39,14 @@ const controller = {
     if (!authUser) {
       return {
         status: 400,
-        response: { user: null, msg: 'User not found' },
+        response: { user: null, msg: 'Usuario no encontrado' },
       };
     }
     const passwordMatch = verifyPassword(password, authUser.password);
     if (!passwordMatch) {
       return {
         status: 400,
-        response: { user: null, msg: 'Incorrect password' },
+        response: { user: null, msg: 'contraseña incorrecta' },
       };
     } else {
       const userResponse = await User.findOne({

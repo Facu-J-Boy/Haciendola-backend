@@ -103,30 +103,31 @@ const controller = {
   ) => {
     try {
       const handle = title.toLowerCase().replace(/\s+/g, '-');
-      const updatedProduct = await Product.update(
-        {
-          handle,
-          title: title.toUpperCase(),
-          description,
-          grams,
-          stock,
-          price,
-          comparePrice,
-        },
-        { where: { id: productId } }
-      );
-
-      if (updatedProduct[0] === 1) {
-        return {
-          status: 200,
-          response: { msg: 'Producto editado con exito' },
-        };
-      } else {
+      const product = await Product.findByPk(productId);
+      if (!product) {
         return {
           status: 404,
-          response: { msg: 'producto no encontrado' },
+          response: {
+            msg: 'Producto no encontrado',
+          },
         };
       }
+      const updatedProduct = await product.update({
+        handle,
+        title: title.toUpperCase(),
+        description,
+        grams,
+        stock,
+        price,
+        comparePrice,
+      });
+      return {
+        status: 200,
+        response: {
+          msg: 'Producto editado con exito',
+          product: updatedProduct,
+        },
+      };
     } catch (error) {
       return {
         status: 500,
